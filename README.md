@@ -1,4 +1,4 @@
-# research_water_scanner_ustp
+# water_scanner_ustp
 
 A new Flutter project.
 

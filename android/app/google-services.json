@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "35131012867",
+    "project_id": "water-monitoring-app-2b16c",
+    "storage_bucket": "water-monitoring-app-2b16c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35131012867:android:65ecd73a76fe74cfd59b36",
+        "android_client_info": {
+          "package_name": "com.water_scanner_ustp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35131012867-jll0fjkbdmomob2kjbds0ni4ub6e69jq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIOLssYrvIVmKHzC43pWyNkjnCCBQXL58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35131012867-jll0fjkbdmomob2kjbds0ni4ub6e69jq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
