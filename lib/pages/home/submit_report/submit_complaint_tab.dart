@@ -118,7 +118,7 @@ class _SubmitReport extends State<SubmitReport> {
         body: SafeArea(
             child: SingleChildScrollView(
           child: Container(
-              margin: const EdgeInsets.only(top: 20.0),
+              margin: const EdgeInsets.only(top: 5.0),
               child: Container(
                 margin: const EdgeInsets.all(20),
                 child: Form(

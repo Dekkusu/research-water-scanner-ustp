@@ -10,15 +10,27 @@ class SubmissionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     void _showSubmittedDocument(String complaintNumber) {
       showModalBottomSheet(
+          isScrollControlled: true,
           context: context,
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20)
+              )
+          ),
           builder: (context) {
-            return Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
-              child: SubmissionDocument(
-                cpNumber: complaintNumber,
+            return FractionallySizedBox(
+              heightFactor: .65,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                  children: [
+                    SubmissionDocument(
+                        cpNumber: complaintNumber),
+                  ]
               ),
             );
-          });
+          }
+      );
     }
 
     return Padding(

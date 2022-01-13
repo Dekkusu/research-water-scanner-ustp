@@ -28,49 +28,75 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
             UserComplaint? complaintDetail = snapshot.data;
             return SafeArea(
                 child: SingleChildScrollView(
-              child: Container(
-                  margin: const EdgeInsets.only(top: 20.0),
                   child: Container(
-                    margin: const EdgeInsets.all(20),
-                    child: Form(
+                    //margin: const EdgeInsets.only(top: 20.0),
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Form(
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
-                            /*
+                            // Image preview
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Padding(
-                                    padding:
-                                    const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                     child: Container(
                                       width: 320,
                                       height: 250,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
                                             Radius.circular(20.0)),
                                         image: DecorationImage(
-                                            image: _image == null
+                                            image: AssetImage(
+                                                'assets/images/placeholder_1.jpg'), // IDELETE LANG NI NGA PART KUNG NANAY CONDITION
+                                            /*_image == null
                                                 ? const AssetImage(
                                                 'assets/images/placeholder_1.jpg')
                                                 : FileImage(_image!)
-                                            as ImageProvider,
+                                            as ImageProvider, */ // MAO NING CONDITION PARA MUGAWAS ANG SA DATABASE
+
                                             fit: BoxFit.cover),
                                       ),
                                     ),
                                   ),
-                                ]),
-                               */
+                                ]
+                            ),
+
+                            // Status Text
+                            Center(
+                              child: Container(
+                                child: RichText(
+                                  text: TextSpan(children: [
+                                    const TextSpan(
+                                        text: 'Status: ',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        )),
+                                    TextSpan(
+                                        text:
+                                        //classCondition ? '$result' : 'No Input',
+                                        'No Input',
+                                        style: const TextStyle(
+                                          color: Colors.green,
+                                        )),
+                                  ]),
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+
                             // Complaints Area
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
                               child: Container(
-                                alignment: const Alignment(-.95, 1),
+                                alignment: const Alignment(-1, 1),
                                 child: const Text(
                                   'Complaint Location',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
-                                      fontSize: 15,
+                                      fontSize: 13,
                                       color: Colors.black),
                                 ),
                               ),
@@ -79,82 +105,71 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
                               child: TextFormField(
+                                enabled: false,
                                 keyboardType: TextInputType.multiline,
                                 minLines: 1,
                                 maxLines: 20,
                                 maxLength: 150,
+                                initialValue: complaintDetail!.address,
+                                style: const TextStyle(
+                                  fontFamily: 'Raleway',
+                                  fontSize: 15,
+                                ),
                                 decoration: InputDecoration(
-                                    hintText: "Location",
-                                    hintStyle: const TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 14,
-                                        color: Colors.grey),
-                                    labelText: complaintDetail!.address,
-                                    labelStyle: const TextStyle(
-                                        color: Color(0x80000000)),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: const BorderSide(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFF2eb86c),
-                                          width: 2,
-                                        ))),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF2eb86c),
+                                        width: 2,
+                                      )),
+                                ),
                               ),
                             ),
 
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                               child: Container(
-                                alignment: const Alignment(-.95, 1),
+                                alignment: const Alignment(-1, 1),
                                 child: const Text(
                                   'Description',
                                   style: TextStyle(
                                       fontFamily: 'Montserrat',
-                                      fontSize: 15,
+                                      fontSize: 13,
                                       color: Colors.black),
                                 ),
                               ),
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 30),
+                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                               child: TextFormField(
+                                enabled: false,
                                 keyboardType: TextInputType.multiline,
                                 minLines: 1,
                                 maxLines: 20,
                                 maxLength: 1000,
+                                initialValue: complaintDetail.description,
+                                style: const TextStyle(
+                                  fontFamily: 'Raleway',
+                                  fontSize: 15,
+                                ),
                                 decoration: InputDecoration(
-                                    labelText: complaintDetail.description,
-                                    hintText: "Input brief complaint details",
-                                    hintStyle: const TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 14,
-                                        color: Colors.grey),
-                                    labelStyle: const TextStyle(
-                                        color: Color(0x80000000)),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: const BorderSide(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        )),
-                                    focusedBorder: OutlineInputBorder(
+                                    border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(
                                           color: Color(0xFF2eb86c),
                                           width: 2,
-                                        ))),
+                                        )),
+                                ),
                               ),
                             ),
                           ],
-                        )),
-                  )),
-            ));
+                        )
+                      ),
+                    )
+                  ),
+                )
+            );
           } else {
             return Loading();
           }

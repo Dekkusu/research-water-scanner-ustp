@@ -19,12 +19,12 @@ class Submissions extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white, //const Color(0xFFFCF6F5),
           appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Color(0xFF2eb86c),
               elevation: 3.0,
               leading: IconButton(
                   icon: const Icon(
                     Icons.arrow_back,
-                    color: Color(0xFF2eb86c),
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     Navigator.pop(context);

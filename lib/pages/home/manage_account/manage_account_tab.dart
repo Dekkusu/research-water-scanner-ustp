@@ -3,14 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:water_scanner_ustp/pages/models/user.dart';
+import 'package:water_scanner_ustp/pages/home/home.dart';
 import 'package:water_scanner_ustp/pages/services/database.dart';
 import 'package:provider/provider.dart';
 
 import '../../loader.dart';
 
 class ManageUserForm extends StatefulWidget {
-  const ManageUserForm({Key? key}) : super(key: key);
-
+  ManageUserForm({Key? key}) : super(key: key);
   @override
   _ManageUserFormState createState() => _ManageUserFormState();
 }
@@ -45,6 +45,7 @@ class _ManageUserFormState extends State<ManageUserForm> {
 
   @override
   Widget build(BuildContext context) {
+    final Home _homepage = new Home();
     final currentUser = Provider.of<RegisteredUser?>(context);
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: currentUser?.uid).userData,
@@ -66,7 +67,7 @@ class _ManageUserFormState extends State<ManageUserForm> {
                       })),
               body: SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.fromLTRB(20, 25, 20, 20),
                   child: Form(
                       key: _formKey,
                       child: Column(
@@ -261,6 +262,7 @@ class _ManageUserFormState extends State<ManageUserForm> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
                             child: TextFormField(
+                              readOnly: true,
                               initialValue: _userData.password,
                               style: const TextStyle(
                                 fontFamily: 'Raleway',
@@ -330,15 +332,6 @@ class _ManageUserFormState extends State<ManageUserForm> {
                             onPressed: () async {
                               String? currentUserUid = currentUser!.uid;
                               if (_formKey.currentState!.validate()) {
-
-
-                                //reset password
-                                await FirebaseAuth.instance.sendPasswordResetEmail(email: _userData.email.toString());
-                                final snackbar = SnackBar(
-                                  content:Text("Email sent incase you want to change password"),
-                                );
-                                //reset password ending
-
                                 await DatabaseService(uid: currentUserUid)
                                     .updateUserData(
                                     _fullname ?? _userData.name,
@@ -354,6 +347,75 @@ class _ManageUserFormState extends State<ManageUserForm> {
                               Navigator.pop(context);
                             },
                           ),
+
+                          ElevatedButton(
+                            style:  ElevatedButton.styleFrom(
+                              primary: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                            ),
+                            child: Text("Change Password",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Color(0xFF2BAE66),
+                                fontSize: 12,
+                                //decoration: TextDecoration.underline,
+                                decorationColor: Color(0xFF2BAE66),
+                                )
+                              ),
+
+                            onPressed: () async {
+                              //reset password
+                              await FirebaseAuth.instance.sendPasswordResetEmail(email: _userData.email.toString());
+                              final snackbar = SnackBar(
+                                content:Text("Email sent incase you want to change password"),
+                              );
+                              //reset password ending
+
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(25),
+                                      ),
+                                      title: const Text(
+                                        'Verification Required',
+                                        style: TextStyle(
+                                          fontFamily: 'Raleway',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      content: const Text(
+                                        'A verification link has been sent to your email. Please follow the instructions to change your password.',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (c) =>
+                                                    _homepage),
+                                                    (route) => false);
+                                          },
+                                          child: const Text(
+                                            'I understand',
+                                            style: TextStyle(
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        )
+                                      ]
+                                  )
+                              );
+                            },
+                          )
                         ],
                       )),
                 ),
