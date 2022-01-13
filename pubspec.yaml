@@ -80,6 +80,7 @@ flutter:
     - assets/images/profile_placeholder.jpg
     - assets/images/denr_background.jpg
     - assets/images/denr_backgroundBlurred.png
+    - assets/images/home_background.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

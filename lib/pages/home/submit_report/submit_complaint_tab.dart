@@ -20,6 +20,7 @@ class SubmitReport extends StatefulWidget {
 class _SubmitReport extends State<SubmitReport> {
   final _formKey = GlobalKey<FormState>();
   final Home _homepage = Home();
+  bool isLoading = false;
 
   String? _address, _description;
 
@@ -327,126 +328,136 @@ class _SubmitReport extends State<SubmitReport> {
                           ),
                         ),
 
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                        Container(
+                          height: 65,
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              primary: const Color(0xFF2eb86c),
+                              textStyle: const TextStyle(
+                                fontFamily: 'Raleway',
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            primary: const Color(0xFF2eb86c),
-                            textStyle: const TextStyle(
-                              fontFamily: 'Raleway',
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          child: const Align(
-                            child: Text(
-                              'Submit Complaint',
+
+                            child: isLoading ?
+                            FittedBox(
+                              child: CircularProgressIndicator(color: Colors.white,
+                                  strokeWidth: 5),
+                            )
+
+                                : Text('Submit Complaint',
                               style: TextStyle(color: Colors.white),
                             ),
+
+                            onPressed: () async {
+                              String? currentUserUid = currentUser!.uid;
+                              if (_formKey.currentState!.validate()) {
+                                setState(() => isLoading = true);
+                                await DatabaseService(uid: currentUserUid)
+                                    .submitComplaintData(_address!, _description!,
+                                        _imgName!, _status);
+
+                                //to upload firebase storage
+                                _destination =
+                                    '$currentUserUid/complaint-images/$_imgName';
+                                await DatabaseService(uid: currentUserUid)
+                                    .uploadImg(_destination!, _image!);
+
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                            ),
+                                            title: const Text(
+                                              'Submission Recorded',
+                                              style: TextStyle(
+                                                fontFamily: 'Raleway',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            content: const Text(
+                                              'Your submission has been queued. It may take 3-5 business days for your submission to be reviewed.',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  //Navigator.pop(context);
+                                                  /*Navigator.push(
+                                                        context,
+                                                          MaterialPageRoute(builder: (context) => _homepage),
+
+                                                      );*/
+                                                  Navigator.of(context)
+                                                      .pushAndRemoveUntil(
+                                                          MaterialPageRoute(
+                                                              builder: (c) =>
+                                                                  _homepage),
+                                                          (route) => false);
+                                                },
+                                                child: const Text(
+                                                  'Understood',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Raleway',
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                              )
+                                            ]));
+                              } else {
+                                // AlertDialog
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                            ),
+                                            title: const Text(
+                                              'Missing Fields!',
+                                              style: TextStyle(
+                                                fontFamily: 'Raleway',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            content: const Text(
+                                              'Please provide the necessary information to proceed.',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text(
+                                                  'Okay',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Raleway',
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                              )
+                                            ]));
+                              }
+                              //Navigator.pop(context);
+                            },
                           ),
-                          onPressed: () async {
-                            String? currentUserUid = currentUser!.uid;
-                            if (_formKey.currentState!.validate()) {
-                              await DatabaseService(uid: currentUserUid)
-                                  .submitComplaintData(_address!, _description!,
-                                      _imgName!, _status);
-
-                              //to upload firebase storage
-                              _destination =
-                                  '$currentUserUid/complaint-images/$_imgName';
-                              await DatabaseService(uid: currentUserUid)
-                                  .uploadImg(_destination!, _image!);
-
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                          title: const Text(
-                                            'Submission Recorded',
-                                            style: TextStyle(
-                                              fontFamily: 'Raleway',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          content: const Text(
-                                            'Your submission has been queued. It may take 3-5 business days for your submission to be reviewed.',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                //Navigator.pop(context);
-                                                /*Navigator.push(
-                                                      context,
-                                                        MaterialPageRoute(builder: (context) => _homepage),
-
-                                                    );*/
-                                                Navigator.of(context)
-                                                    .pushAndRemoveUntil(
-                                                        MaterialPageRoute(
-                                                            builder: (c) =>
-                                                                _homepage),
-                                                        (route) => false);
-                                              },
-                                              child: const Text(
-                                                'Understood',
-                                                style: TextStyle(
-                                                  fontFamily: 'Raleway',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 13,
-                                                ),
-                                              ),
-                                            )
-                                          ]));
-                            } else {
-                              // AlertDialog
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                          title: const Text(
-                                            'Missing Fields!',
-                                            style: TextStyle(
-                                              fontFamily: 'Raleway',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          content: const Text(
-                                            'Please provide the necessary information to proceed.',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text(
-                                                'Okay',
-                                                style: TextStyle(
-                                                  fontFamily: 'Raleway',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 13,
-                                                ),
-                                              ),
-                                            )
-                                          ]));
-                            }
-                            //Navigator.pop(context);
-                          },
                         ),
                       ],
                     )),
