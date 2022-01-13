@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:water_scanner_ustp/pages/models/user.dart';
@@ -23,6 +24,8 @@ class _ManageUserFormState extends State<ManageUserForm> {
       _imgSrc,
       _destination;
   bool? _passVisible = true;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   File? _profileImage;
   ImagePicker? imagePicker;
@@ -327,6 +330,15 @@ class _ManageUserFormState extends State<ManageUserForm> {
                             onPressed: () async {
                               String? currentUserUid = currentUser!.uid;
                               if (_formKey.currentState!.validate()) {
+
+
+                                //reset password
+                                await FirebaseAuth.instance.sendPasswordResetEmail(email: _userData.email.toString());
+                                final snackbar = SnackBar(
+                                  content:Text("Email sent incase you want to change password"),
+                                );
+                                //reset password ending
+
                                 await DatabaseService(uid: currentUserUid)
                                     .updateUserData(
                                     _fullname ?? _userData.name,
