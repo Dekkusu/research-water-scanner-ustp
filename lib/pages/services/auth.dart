@@ -57,8 +57,6 @@ class AuthService {
     }
   }
 
-
-
   //Sign out
   Future signOut() async{
     try{

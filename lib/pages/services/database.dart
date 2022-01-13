@@ -24,7 +24,7 @@ class DatabaseService {
 
   //Add document for submitting complaint
   Future submitComplaintData(String address, String description,
-      String waterImageSrc, String status) async {
+      String waterImageSrc, String status, String imageUrl) async {
     int n = 1;
     String documentName = 'complaint-$n';
 
@@ -58,19 +58,24 @@ class DatabaseService {
       'address': address,
       'description': description,
       'water-img': waterImageSrc,
-      'status': 'uncleaned' //Status: clean/uncleaned
+      'status': 'uncleaned',
+      'image link': imageUrl, //Status: clean/uncleaned
     });
   }
 
   //upload image
   Future uploadImg(String destination, File img) async {
     final storageReference = FirebaseStorage.instance.ref(destination);
-    return storageReference.putFile(img);
+    await storageReference.putFile(img);
+    return await storageReference.getDownloadURL();
   }
 
   //get image
-  Future downloadImg(String destination) async {
-    return await FirebaseStorage.instance.ref(destination).getDownloadURL();
+  downloadImg(String destination) {
+    return FirebaseStorage.instance
+        .ref(destination)
+        .getDownloadURL()
+        .toString();
   }
 
   //snapshot user data
@@ -96,7 +101,8 @@ class DatabaseService {
           address: doc.get('address') ?? ' ',
           description: doc.get('description') ?? ' ',
           image: doc.get('water-img') ?? ' ',
-          status: doc.get('status'));
+          status: doc.get('status'),
+          imageUrl: doc.get('image link'));
     }).toList();
   }
 
@@ -112,11 +118,13 @@ class DatabaseService {
   //snapshot individual complaint docu
   UserComplaint _userComplaintFromSnapshot(DocumentSnapshot snapshot) {
     return UserComplaint(
-        complaintNum: snapshot.get('complaint #'),
-        address: snapshot.get('address') ?? '',
-        image: snapshot.get('water-img'),
-        description: snapshot.get('description'),
-        status: snapshot.get('status'));
+      complaintNum: snapshot.get('complaint #'),
+      address: snapshot.get('address') ?? '',
+      image: snapshot.get('water-img'),
+      description: snapshot.get('description'),
+      status: snapshot.get('status'),
+      imageUrl: snapshot.get('image link'),
+    );
   }
 
   Stream<UserComplaint> submittedComplaintsDocument(String? docName) {

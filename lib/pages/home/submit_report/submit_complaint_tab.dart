@@ -27,7 +27,7 @@ class _SubmitReport extends State<SubmitReport> {
   Future<File>? pickedImage; //
   File? _image; //
   String result = ' ';
-  String? _destination, _imgName;
+  String? _destination, _imgName, _downloadImageUrl;
   String _status = 'uncleaned';
   ImagePicker? imagePicker; //
   var classCondition = false;
@@ -359,9 +359,6 @@ class _SubmitReport extends State<SubmitReport> {
                               String? currentUserUid = currentUser!.uid;
                               if (_formKey.currentState!.validate()) {
                                 setState(() => isLoading = true);
-                                await DatabaseService(uid: currentUserUid)
-                                    .submitComplaintData(_address!, _description!,
-                                        _imgName!, _status);
 
                                 //to upload firebase storage
                                 _destination =
@@ -369,6 +366,12 @@ class _SubmitReport extends State<SubmitReport> {
                                 await DatabaseService(uid: currentUserUid)
                                     .uploadImg(_destination!, _image!);
 
+                                _downloadImageUrl = await DatabaseService(uid: currentUserUid)
+                                    .uploadImg(_destination!, _image!);
+
+                                await DatabaseService(uid: currentUserUid)
+                                    .submitComplaintData(_address!, _description!,
+                                    _imgName!, _status, _downloadImageUrl!);
                                 showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(

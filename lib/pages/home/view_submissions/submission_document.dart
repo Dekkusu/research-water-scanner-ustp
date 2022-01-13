@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:water_scanner_ustp/pages/loader.dart';
@@ -20,12 +22,15 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
   @override
   Widget build(BuildContext context) {
     final currentUser = Provider.of<RegisteredUser?>(context);
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    String? _imgLink;
     return StreamBuilder<UserComplaint>(
         stream: DatabaseService(uid: currentUser?.uid)
             .submittedComplaintsDocument(widget.cpNumber),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserComplaint? complaintDetail = snapshot.data;
+            _imgLink =  complaintDetail!.imageUrl;
             return SafeArea(
                 child: SingleChildScrollView(
                   child: Container(
@@ -48,17 +53,16 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                                       decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20.0)),
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/placeholder_1.jpg'), // IDELETE LANG NI NGA PART KUNG NANAY CONDITION
+                                              //DecorationImage(image: AssetImage('assets/images/placeholder_1.jpg'), // IDELETE LANG NI NGA PART KUNG NANAY CONDITION
                                             /*_image == null
                                                 ? const AssetImage(
                                                 'assets/images/placeholder_1.jpg')
                                                 : FileImage(_image!)
                                             as ImageProvider, */ // MAO NING CONDITION PARA MUGAWAS ANG SA DATABASE
 
-                                            fit: BoxFit.cover),
+                                            //fit: BoxFit.cover),
                                       ),
+                                        child: Image.network('$_imgLink'),
                                     ),
                                   ),
                                 ]
@@ -110,7 +114,7 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                                 minLines: 1,
                                 maxLines: 20,
                                 maxLength: 150,
-                                initialValue: complaintDetail!.address,
+                                initialValue: complaintDetail.address,
                                 style: const TextStyle(
                                   fontFamily: 'Raleway',
                                   fontSize: 15,
@@ -141,6 +145,7 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                             ),
 
                             Padding(
+
                               padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                               child: TextFormField(
                                 enabled: false,

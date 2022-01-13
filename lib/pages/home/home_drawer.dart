@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_scanner_ustp/pages/authenticate/login.dart';
 import 'package:water_scanner_ustp/pages/home/manage_account/manage_account_tab.dart';
 import 'package:water_scanner_ustp/pages/services/auth.dart';
 
@@ -78,18 +79,16 @@ class HomeDrawer extends StatelessWidget {
               ),*/
 
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text(
-                'Logout',
-                style: TextStyle(fontSize: 16, fontFamily: 'Montserrat'),
-              ),
-              onTap: () async {
-                await _auth.signOut();
-              },
-            ),
-          )
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: const Text(
+                    'Logout',
+                    style: TextStyle(fontSize: 16, fontFamily: 'Montserrat'),
+                  ),
+                  onTap: () async {
+                    await _auth.signOut();
+                  }))
         ]),
       ),
     );
