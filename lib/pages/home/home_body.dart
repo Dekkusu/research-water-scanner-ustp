@@ -20,91 +20,99 @@ class HomeBody extends StatelessWidget {
     ManageUserForm _manageUser = new ManageUserForm();
     Size size = MediaQuery.of(context).size;
 
-    return Column(children: <Widget>[
-      HomeGreetingHeader(size: size),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-          child: SizedBox(
-            width: 150,
-            height: 150,
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => _viewSubmissions),
-                );
-              },
-              child: Center(
-                  child:
-                      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                SvgPicture.asset("assets/icons/list.svg",
-                    height: 60, width: 60),
-                //Icon(Icons.list, size: 70, color: Colors.brown),
-                const Text("\nSubmissions",
-                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 13)),
-              ])),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(const Radius.circular(40))),
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/home_background.png'),
+              fit: BoxFit.cover
+            )
+          ),
+      child: Column(children: <Widget>[
+        HomeGreetingHeader(size: size),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+            child: SizedBox(
+              width: 150,
+              height: 150,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _viewSubmissions),
+                  );
+                },
+                child: Center(
+                    child:
+                        Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  SvgPicture.asset("assets/icons/list.svg",
+                      height: 60, width: 60),
+                  //Icon(Icons.list, size: 70, color: Colors.brown),
+                  const Text("\nSubmissions",
+                      style: TextStyle(fontFamily: 'Montserrat', fontSize: 13)),
+                ])),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(const Radius.circular(40))),
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-          child: SizedBox(
-            width: 150,
-            height: 150,
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => _submitNow),
-                );
-              },
-              child: Center(
-                  child:
-                      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                SvgPicture.asset("assets/icons/report.svg",
-                    height: 50, width: 50),
-                //Icon(Icons.list, size: 70, color: Colors.brown),
-                const Text("\nSubmit\nComplaint",
-                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 13),
-                    textAlign: TextAlign.center),
-              ])),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(40))),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+            child: SizedBox(
+              width: 150,
+              height: 150,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _submitNow),
+                  );
+                },
+                child: Center(
+                    child:
+                        Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  SvgPicture.asset("assets/icons/report.svg",
+                      height: 50, width: 50),
+                  //Icon(Icons.list, size: 70, color: Colors.brown),
+                  const Text("\nSubmit\nComplaint",
+                      style: TextStyle(fontFamily: 'Montserrat', fontSize: 13),
+                      textAlign: TextAlign.center),
+                ])),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(40))),
+              ),
             ),
           ),
-        ),
+        ]),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+            child: SizedBox(
+              width: 150,
+              height: 150,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _manageUser),
+                  );
+                },
+                child: Center(
+                    child:
+                        Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  SvgPicture.asset("assets/icons/user.svg",
+                      height: 55, width: 55),
+                  //Icon(Icons.list, size: 70, color: Colors.brown),
+                  const Text("\nManage Profile",
+                      style: TextStyle(fontFamily: 'Montserrat', fontSize: 13)),
+                ])),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(const Radius.circular(40))),
+              ),
+            ),
+          ),
+        ]),
       ]),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-          child: SizedBox(
-            width: 150,
-            height: 150,
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => _manageUser),
-                );
-              },
-              child: Center(
-                  child:
-                      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                SvgPicture.asset("assets/icons/user.svg",
-                    height: 55, width: 55),
-                //Icon(Icons.list, size: 70, color: Colors.brown),
-                const Text("\nManage Profile",
-                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 13)),
-              ])),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(const Radius.circular(40))),
-            ),
-          ),
-        ),
-      ]),
-    ]);
+    );
   }
 }
