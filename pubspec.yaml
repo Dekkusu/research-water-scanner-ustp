@@ -87,6 +87,8 @@ flutter:
     - assets/images/denr_backgroundBlurred.png
     - assets/images/home_background.png
     - assets/images/view_background.png
+    - assets/images/manage_header.png
+    - assets/images/denr_logo.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -47,15 +47,19 @@ class _ManageUserFormState extends State<ManageUserForm> {
   Widget build(BuildContext context) {
     final Home _homepage = new Home();
     final currentUser = Provider.of<RegisteredUser?>(context);
+
+    double phoneWidth = MediaQuery.of(context).size.width;
+    double phoneHeight = MediaQuery.of(context).size.height;
+
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: currentUser?.uid).userData,
         builder: (context, snapshot) {
           if(snapshot.hasData){
             UserData? _userData = snapshot.data;
             return Scaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: Color(0xFFFFF6F6),
               appBar: AppBar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(0xFF36454f),
                   elevation: 3.0,
                   leading: IconButton(
                       icon: const Icon(
@@ -76,11 +80,12 @@ class _ManageUserFormState extends State<ManageUserForm> {
                           // Manage Profile text
                           Row(children: const <Widget>[
                             Text(
-                              'Manage Profile',
+                              'Manage\nProfile',
                               style: TextStyle(
                                   fontFamily: 'Raleway',
-                                  fontSize: 25,
-                                  color: Colors.black),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40,
+                                  color: Color(0xFF36454f)),
                             ),
                           ]),
 
@@ -91,20 +96,18 @@ class _ManageUserFormState extends State<ManageUserForm> {
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                                   child: Container(
-                                    width: 130,
+                                    width: phoneWidth * .8,
                                     height: 130,
                                     decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
                                         image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
-                                            fit: BoxFit.cover)),
+                                            image: AssetImage('assets/images/manage_header.png'),
+                                            fit: BoxFit.fitWidth)),
                                   ),
                                 )
                               ]),
 
                           // Change Picture button
-                          Row(
+                          /*Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Padding(
@@ -142,7 +145,7 @@ class _ManageUserFormState extends State<ManageUserForm> {
                                 ),
                               ),
                             ],
-                          ),
+                          ),*/
 
                           // name text form field
                           Padding(

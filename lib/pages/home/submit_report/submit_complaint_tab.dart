@@ -7,6 +7,7 @@ import 'package:water_scanner_ustp/pages/home/home_body.dart';
 import 'package:water_scanner_ustp/pages/models/user.dart';
 import 'package:water_scanner_ustp/pages/services/database.dart';
 import '../home.dart';
+import 'package:flutter/services.dart';
 
 class SubmitReport extends StatefulWidget {
   SubmitReport({Key? key}) : super(key: key);
@@ -103,10 +104,10 @@ class _SubmitReport extends State<SubmitReport> {
     final currentUser = Provider.of<RegisteredUser?>(
         context); //important para ni ma detect kinsay user
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFFFF6F6),
         appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 3.0,
+            backgroundColor: Color(0xFFFFF6F6),
+            elevation: 0,
             leading: IconButton(
                 icon: const Icon(
                   Icons.arrow_back,
@@ -117,354 +118,365 @@ class _SubmitReport extends State<SubmitReport> {
                 })),
         body: SafeArea(
             child: SingleChildScrollView(
-          child: Container(
-              margin: const EdgeInsets.only(top: 5.0),
+              physics: BouncingScrollPhysics(),
               child: Container(
-                margin: const EdgeInsets.all(20),
+                margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                 child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        // Submit Complaint Title
-                        Row(children: const <Widget>[
-                          Text(
-                            'Submit Complaint',
-                            style: TextStyle(
-                                fontFamily: 'Raleway',
-                                fontSize: 25,
-                                color: Colors.black),
-                          ),
-                        ]),
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      // Submit Complaint Title
+                      Row(children: const <Widget>[
+                        Text(
+                          'Submit\nComplaint',
+                          style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                              color: Color(0xFF36454f)),
+                        ),
+                      ]),
 
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                child: Container(
-                                  width: 320,
-                                  height: 250,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(20.0)),
-                                    image: DecorationImage(
-                                        image: _image == null
-                                            ? const AssetImage(
-                                                'assets/images/placeholder_1.jpg')
-                                            : FileImage(_image!)
-                                                as ImageProvider,
-                                        fit: BoxFit.cover),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                              child: Container(
+                                width: 320,
+                                height: 250,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xFF808080),
+                                    width: 1,
                                   ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20.0)),
+                                  image: DecorationImage(
+                                      image: _image == null
+                                          ? const AssetImage(
+                                              'assets/images/placeholder_1.jpg')
+                                          : FileImage(_image!)
+                                              as ImageProvider,
+                                      fit: BoxFit.cover),
                                 ),
                               ),
-                            ]),
+                            ),
+                          ]),
 
-                        // Upload Image button
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: ElevatedButton(
-                            onPressed: getImageFromGallery,
-                            onLongPress: capturePhotoFromCamera,
-                            child: Container(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: const <Widget>[
-                                  SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: Icon(
-                                      Icons.upload,
-                                      color: Colors.white,
-                                    ),
+                      // Upload Image button
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        child: ElevatedButton(
+                          onPressed: getImageFromGallery,
+                          onLongPress: capturePhotoFromCamera,
+                          child: Container(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const <Widget>[
+                                SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: Icon(
+                                    Icons.upload,
+                                    color: Colors.white,
                                   ),
-                                  Text('Upload Image',
-                                      style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                      ))
-                                ],
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
-                              primary: const Color(0xFF2eb86c),
-                            ),
-                          ),
-                        ),
-
-                        // Classification
-                        Center(
-                          child: Container(
-                            child: RichText(
-                              text: TextSpan(children: [
-                                const TextSpan(
-                                    text: 'Classification: ',
+                                ),
+                                Text('Upload Image',
                                     style: TextStyle(
-                                      color: Colors.black,
-                                    )),
-                                TextSpan(
-                                    text:
-                                        classCondition ? '$result' : 'No Input',
-                                    style: const TextStyle(
-                                      color: Colors.green,
-                                    )),
-                              ]),
-                              maxLines: 1,
+                                      fontFamily: 'Raleway',
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ))
+                              ],
                             ),
                           ),
-                        ),
-
-                        // Complaints Area
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
-                          child: Container(
-                            alignment: const Alignment(-.95, 1),
-                            child: const Text(
-                              'Complaint Location',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 15,
-                                  color: Colors.black),
-                            ),
+                          style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            primary: const Color(0xFF2eb86c),
                           ),
                         ),
+                      ),
 
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            minLines: 1,
-                            maxLines: 20,
-                            maxLength: 150,
-                            decoration: InputDecoration(
-                                hintText: "Location",
-                                hintStyle: const TextStyle(
-                                    fontFamily: 'Raleway',
-                                    fontSize: 14,
-                                    color: Colors.grey),
-                                //labelText: "Complaint Location",
-                                labelStyle:
-                                    const TextStyle(color: Color(0x80000000)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2eb86c),
-                                      width: 2,
-                                    ))),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Address is required";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              setState(() => _address = value.trim());
-                            },
+                      // Classification
+                      Center(
+                        child: Container(
+                          child: RichText(
+                            text: TextSpan(children: [
+                              const TextSpan(
+                                  text: 'Classification: ',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  )),
+                              TextSpan(
+                                  text:
+                                      classCondition ? '$result' : 'No Input',
+                                  style: const TextStyle(
+                                    color: Colors.green,
+                                  )),
+                            ]),
+                            maxLines: 1,
                           ),
                         ),
+                      ),
 
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                          child: Container(
-                            alignment: const Alignment(-.95, 1),
-                            child: const Text(
-                              'Description',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 15,
-                                  color: Colors.black),
-                            ),
+                      // Complaints Area
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
+                        child: Container(
+                          alignment: const Alignment(-.95, 1),
+                          child: const Text(
+                            'Complaint Location',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 15,
+                                color: Colors.black),
                           ),
                         ),
+                      ),
 
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 30),
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            minLines: 1,
-                            maxLines: 20,
-                            maxLength: 1000,
-                            decoration: InputDecoration(
-                                //labelText: "Description",
-                                hintText: "Input brief complaint details",
-                                hintStyle: const TextStyle(
-                                    fontFamily: 'Raleway',
-                                    fontSize: 14,
-                                    color: Colors.grey),
-                                labelStyle:
-                                    const TextStyle(color: Color(0x80000000)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2eb86c),
-                                      width: 2,
-                                    ))),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Description is required";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              setState(() => _description = value.trim());
-                            },
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 20,
+                          maxLength: 150,
+                          decoration: InputDecoration(
+                              hintText: "Location",
+                              hintStyle: const TextStyle(
+                                  fontFamily: 'Raleway',
+                                  fontSize: 14,
+                                  color: Colors.grey),
+                              //labelText: "Complaint Location",
+                              labelStyle:
+                                  const TextStyle(color: Color(0x80000000)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF2eb86c),
+                                    width: 2,
+                                  ))),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Address is required";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() => _address = value.trim());
+                          },
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                        child: Container(
+                          alignment: const Alignment(-.95, 1),
+                          child: const Text(
+                            'Description',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 15,
+                                color: Colors.black),
                           ),
                         ),
+                      ),
 
-                        Container(
-                          height: 65,
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              primary: const Color(0xFF2eb86c),
-                              textStyle: const TextStyle(
-                                fontFamily: 'Raleway',
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 30),
+                        child: TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 20,
+                          maxLength: 1000,
+                          decoration: InputDecoration(
+                              //labelText: "Description",
+                              hintText: "Input brief complaint details",
+                              hintStyle: const TextStyle(
+                                  fontFamily: 'Raleway',
+                                  fontSize: 14,
+                                  color: Colors.grey),
+                              labelStyle:
+                                  const TextStyle(color: Color(0x80000000)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF2eb86c),
+                                    width: 2,
+                                  ))),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Description is required";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() => _description = value.trim());
+                          },
+                        ),
+                      ),
+
+                      Container(
+                        height: 65,
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
                             ),
-
-                            child: isLoading ?
-                            FittedBox(
-                              child: CircularProgressIndicator(color: Colors.white,
-                                  strokeWidth: 5),
-                            )
-
-                                : Text('Submit Complaint',
-                              style: TextStyle(color: Colors.white),
+                            primary: const Color(0xFF2eb86c),
+                            textStyle: const TextStyle(
+                              fontFamily: 'Raleway',
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
                             ),
+                          ),
 
-                            onPressed: () async {
-                              String? currentUserUid = currentUser!.uid;
-                              if (_formKey.currentState!.validate()) {
-                                setState(() => isLoading = true);
+                          child: isLoading ?
+                          FittedBox(
+                            child: CircularProgressIndicator(color: Colors.white,
+                                strokeWidth: 5),
+                          )
 
-                                //to upload firebase storage
-                                _destination =
-                                    '$currentUserUid/complaint-images/$_imgName';
-                                await DatabaseService(uid: currentUserUid)
-                                    .uploadImg(_destination!, _image!);
+                              : Text('Submit Complaint',
+                            style: TextStyle(color: Colors.white),
+                          ),
 
-                                _downloadImageUrl = await DatabaseService(uid: currentUserUid)
-                                    .uploadImg(_destination!, _image!);
+                          onPressed: () async {
+                            SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-                                await DatabaseService(uid: currentUserUid)
-                                    .submitComplaintData(_address!, _description!,
-                                    _imgName!, _status, _downloadImageUrl!);
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
+                            String? currentUserUid = currentUser!.uid;
+                            if (_formKey.currentState!.validate() && _image != null) {
+                              setState(() => isLoading = true);
+
+                              //to upload firebase storage
+                              _destination =
+                                  '$currentUserUid/complaint-images/$_imgName';
+                              await DatabaseService(uid: currentUserUid)
+                                  .uploadImg(_destination!, _image!);
+
+                              _downloadImageUrl = await DatabaseService(uid: currentUserUid)
+                                  .uploadImg(_destination!, _image!);
+
+                              await DatabaseService(uid: currentUserUid)
+                                  .submitComplaintData(_address!, _description!,
+                                  _imgName!, _status, _downloadImageUrl!);
+
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                          title: const Text(
+                                            'Submission Recorded',
+                                            style: TextStyle(
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
                                             ),
-                                            title: const Text(
-                                              'Submission Recorded',
-                                              style: TextStyle(
-                                                fontFamily: 'Raleway',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
+                                          ),
+                                          content: const Text(
+                                            'Your submission has been queued. It may take 3-5 business days for your submission to be reviewed.',
+                                            style: TextStyle(
+                                              fontSize: 14,
                                             ),
-                                            content: const Text(
-                                              'Your submission has been queued. It may take 3-5 business days for your submission to be reviewed.',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  //Navigator.pop(context);
-                                                  /*Navigator.push(
-                                                        context,
-                                                          MaterialPageRoute(builder: (context) => _homepage),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                //Navigator.pop(context);
+                                                /*Navigator.push(
+                                                      context,
+                                                        MaterialPageRoute(builder: (context) => _homepage),
 
-                                                      );*/
-                                                  Navigator.of(context)
-                                                      .pushAndRemoveUntil(
-                                                          MaterialPageRoute(
-                                                              builder: (c) =>
-                                                                  _homepage),
-                                                          (route) => false);
-                                                },
-                                                child: const Text(
-                                                  'Understood',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Raleway',
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 13,
-                                                  ),
+                                                    );*/
+                                                /* Navigator.of(context)
+                                                    .pushAndRemoveUntil(
+                                                        MaterialPageRoute(
+                                                            builder: (c) =>
+                                                                _homepage),
+                                                        (route) => false); */
+
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                                //Navigator.pop(context);
+                                              },
+                                              child: const Text(
+                                                'Understood',
+                                                style: TextStyle(
+                                                  fontFamily: 'Raleway',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 13,
                                                 ),
-                                              )
-                                            ]));
-                              } else {
-                                // AlertDialog
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                            ),
-                                            title: const Text(
-                                              'Missing Fields!',
-                                              style: TextStyle(
-                                                fontFamily: 'Raleway',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
                                               ),
+                                            )
+                                          ]));
+                            } else {
+                              // AlertDialog
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                          title: const Text(
+                                            'Missing Fields!',
+                                            style: TextStyle(
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
                                             ),
-                                            content: const Text(
-                                              'Please provide the necessary information to proceed.',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                              ),
+                                          ),
+                                          content: const Text(
+                                            'Please provide the necessary information to proceed.',
+                                            style: TextStyle(
+                                              fontSize: 14,
                                             ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text(
-                                                  'Okay',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Raleway',
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 13,
-                                                  ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text(
+                                                'Okay',
+                                                style: TextStyle(
+                                                  fontFamily: 'Raleway',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 13,
                                                 ),
-                                              )
-                                            ]));
-                              }
-                              //Navigator.pop(context);
-                            },
-                          ),
+                                              ),
+                                            )
+                                          ]));
+                            }
+                            //Navigator.pop(context);
+                          },
                         ),
-                      ],
-                    )),
-              )),
+                      ),
+                    ],
+                  )),
+              ),
         )));
   }
 }

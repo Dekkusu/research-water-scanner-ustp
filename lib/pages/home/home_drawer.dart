@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:water_scanner_ustp/pages/authenticate/login.dart';
 import 'package:water_scanner_ustp/pages/home/manage_account/manage_account_tab.dart';
 import 'package:water_scanner_ustp/pages/services/auth.dart';
+import '../authenticate/login.dart';
 
 class HomeDrawer extends StatelessWidget {
   HomeDrawer({Key? key}) : super(key: key);
   final AuthService _auth = AuthService();
+  final LogIn _loginPage = LogIn();
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +26,7 @@ class HomeDrawer extends StatelessWidget {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Seal_of_the_Department_of_Environment_and_Natural_Resources.svg/1200px-Seal_of_the_Department_of_Environment_and_Natural_Resources.svg.png'),
+                    backgroundImage: AssetImage('assets/images/denr_logo.png'),
                     radius: 45,
                   ),
                 ),
@@ -88,6 +90,7 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   onTap: () async {
                     await _auth.signOut();
+
                   }))
         ]),
       ),

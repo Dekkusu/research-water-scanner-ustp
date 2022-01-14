@@ -50,6 +50,10 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                                       width: 320,
                                       height: 250,
                                       decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Color(0xFFD3D3D3),
+                                          width: 1
+                                        ),
                                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                                         image: DecorationImage(
                                           image: NetworkImage(complaintDetail.imageUrl) as ImageProvider, // AKOA NA GIDIRETSO complaintDetail.imageUrl
@@ -69,13 +73,15 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                                     const TextSpan(
                                         text: 'Status: ',
                                         style: TextStyle(
+                                          fontFamily: 'Raleway',
                                           color: Colors.black,
                                         )),
                                     TextSpan(
                                         text:
                                         //classCondition ? '$result' : 'No Input',
-                                        'Subject to Inspection',
+                                        complaintDetail.status, // DIRI DEXXXXXXXXXXXX
                                         style: const TextStyle(
+                                          fontFamily: 'Raleway',
                                           color: Colors.green,
                                         )),
                                   ]),
