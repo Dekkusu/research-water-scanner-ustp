@@ -17,14 +17,15 @@ class Submissions extends StatelessWidget {
       builder: (context, snapshot) {
         //important
         return Scaffold(
+          extendBodyBehindAppBar: true,
           backgroundColor: Colors.white, //const Color(0xFFFCF6F5),
           appBar: AppBar(
-              backgroundColor: Color(0xFF2eb86c),
-              elevation: 3.0,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
               leading: IconButton(
                   icon: const Icon(
                     Icons.arrow_back,
-                    color: Colors.white,
+                    color: Color(0xFF2eb86c), // DENR Green
                   ),
                   onPressed: () {
                     Navigator.pop(context);

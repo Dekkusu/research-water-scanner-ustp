@@ -33,15 +33,35 @@ class SubmissionTile extends StatelessWidget {
       );
     }
 
-    return Padding(
-      padding: EdgeInsets.only(top: 8.0),
+    return Container(
       child: Card(
-        margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
-        child: ListTile(
-          title: Text(submission.address),
-          subtitle: Text(submission.status),
-          onTap: () => _showSubmittedDocument(submission.complaintNum),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+        child: Align(
+            alignment: Alignment.centerLeft,
+            child: ListTile(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+              tileColor: Color(0xFFFAFAFA),
+              title: Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(submission.address,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontFamily: 'Raleway',
+                        fontSize: 17),
+                  ),
+              ),
+              subtitle: Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(submission.status,
+                  style: TextStyle(fontFamily: 'Montserrat',
+                    fontSize: 13),
+                ),
+              ),
+
+              onTap: () => _showSubmittedDocument(submission.complaintNum),
+            ),
+          ),
       ),
     );
   }

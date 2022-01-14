@@ -30,11 +30,10 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserComplaint? complaintDetail = snapshot.data;
-            _imgLink =  complaintDetail!.imageUrl;
+            _imgLink =  complaintDetail!.imageUrl;  // DEX WALA NA NAKO GIGAMIT ANG _imgLink KAY DILI MAGAMIT SA NETWORK IMAGE
             return SafeArea(
                 child: SingleChildScrollView(
                   child: Container(
-                    //margin: const EdgeInsets.only(top: 20.0),
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Form(
@@ -46,23 +45,17 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
                                     child: Container(
                                       width: 320,
                                       height: 250,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20.0)),
-                                              //DecorationImage(image: AssetImage('assets/images/placeholder_1.jpg'), // IDELETE LANG NI NGA PART KUNG NANAY CONDITION
-                                            /*_image == null
-                                                ? const AssetImage(
-                                                'assets/images/placeholder_1.jpg')
-                                                : FileImage(_image!)
-                                            as ImageProvider, */ // MAO NING CONDITION PARA MUGAWAS ANG SA DATABASE
-
-                                            //fit: BoxFit.cover),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                                        image: DecorationImage(
+                                          image: NetworkImage(complaintDetail.imageUrl) as ImageProvider, // AKOA NA GIDIRETSO complaintDetail.imageUrl
+                                          fit: BoxFit.cover,
+                                        )
                                       ),
-                                        child: Image.network('$_imgLink'),
                                     ),
                                   ),
                                 ]
@@ -81,7 +74,7 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                                     TextSpan(
                                         text:
                                         //classCondition ? '$result' : 'No Input',
-                                        'No Input',
+                                        'Subject to Inspection',
                                         style: const TextStyle(
                                           color: Colors.green,
                                         )),
@@ -107,7 +100,7 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                              padding: const EdgeInsets.fromLTRB(0, 3, 0, 5),
                               child: TextFormField(
                                 enabled: false,
                                 keyboardType: TextInputType.multiline,
@@ -146,7 +139,7 @@ class _SubmissionDocumentState extends State<SubmissionDocument> {
 
                             Padding(
 
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                               child: TextFormField(
                                 enabled: false,
                                 keyboardType: TextInputType.multiline,
