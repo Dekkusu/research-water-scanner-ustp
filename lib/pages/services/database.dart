@@ -58,8 +58,8 @@ class DatabaseService {
       'address': address,
       'description': description,
       'water-img': waterImageSrc,
-      'status': 'Subject for Inspection',
-      'image link': imageUrl, //Status: clean/uncleaned
+      'status': status,
+      'image link': imageUrl,
     });
   }
 
