@@ -48,8 +48,8 @@ class LogInForms extends State<LogIn>{
             )
         ),
         validator: (value){
-          if(value!.isEmpty){
-            return "Email is required";
+          if(value!.isEmpty || !value.contains('@')){
+            return "Enter a valid email address";
           }else{
             return null;
           }

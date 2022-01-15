@@ -29,7 +29,7 @@ class _SubmitReport extends State<SubmitReport> {
   File? _image; //
   String result = ' ';
   String? _destination, _imgName, _downloadImageUrl;
-  String _status = 'uncleaned';
+  String _status = 'Subject for Inspection';
   ImagePicker? imagePicker; //
   var classCondition = false;
 
@@ -364,7 +364,7 @@ class _SubmitReport extends State<SubmitReport> {
                             SystemChannels.textInput.invokeMethod('TextInput.hide');
 
                             String? currentUserUid = currentUser!.uid;
-                            if (_formKey.currentState!.validate() && _image != null) {
+                            if (_formKey.currentState!.validate() && _image != null && result != "Clean Water") {
                               setState(() => isLoading = true);
 
                               //to upload firebase storage
@@ -398,7 +398,7 @@ class _SubmitReport extends State<SubmitReport> {
                                           content: const Text(
                                             'Your submission has been queued. It may take 3-5 business days for your submission to be reviewed.',
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 15,
                                             ),
                                           ),
                                           actions: [
@@ -426,12 +426,54 @@ class _SubmitReport extends State<SubmitReport> {
                                                 style: TextStyle(
                                                   fontFamily: 'Raleway',
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 13,
+                                                  fontSize: 14,
                                                 ),
                                               ),
                                             )
                                           ]));
-                            } else {
+                            }
+
+                            else if (result == "Clean Water"){
+                            // AlertDialog
+                            showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(25),
+                                ),
+                                title: const Text(
+                                  'Clean Water Detected',
+                                  style: TextStyle(
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                content: const Text(
+                                  'In order to filter out possible spam complaints, entries classified as "Clean Water" is not allowed for submission. Please choose another photo.',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text(
+                                      'Okay',
+                                      style: TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  )
+                                ]));
+                            }
+
+                            else {
                               // AlertDialog
                               showDialog(
                                   context: context,
@@ -451,7 +493,7 @@ class _SubmitReport extends State<SubmitReport> {
                                           content: const Text(
                                             'Please provide the necessary information to proceed.',
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 15,
                                             ),
                                           ),
                                           actions: [
@@ -464,13 +506,12 @@ class _SubmitReport extends State<SubmitReport> {
                                                 style: TextStyle(
                                                   fontFamily: 'Raleway',
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 13,
+                                                  fontSize: 14,
                                                 ),
                                               ),
                                             )
                                           ]));
-                            }
-                            //Navigator.pop(context);
+                            }//Navigator.pop(context);
                           },
                         ),
                       ),
