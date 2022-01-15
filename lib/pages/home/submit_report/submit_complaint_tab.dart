@@ -82,7 +82,7 @@ class _SubmitReport extends State<SubmitReport> {
       path: _image!.path,
       imageMean: 0.0,
       imageStd: 255.0,
-      numResults: 2, //number of results possible predict
+      numResults: 1, //number of results possible predict
       threshold: 0.1,
       asynch: true,
     );
@@ -93,7 +93,7 @@ class _SubmitReport extends State<SubmitReport> {
     recognitions.forEach((element) {
       setState(() {
         print(element.toString());
-        result += element['label'] + '\n\n';
+        result += element['label'];
       });
     });
     classCondition = true;

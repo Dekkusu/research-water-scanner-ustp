@@ -228,6 +228,7 @@ class _ManageUserFormState extends State<ManageUserForm> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                             child: TextFormField(
+                              readOnly: true,
                               initialValue: _userData.email,
                               style: const TextStyle(
                                 fontFamily: 'Raleway',
