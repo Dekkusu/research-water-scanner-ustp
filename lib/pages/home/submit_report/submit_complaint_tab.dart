@@ -433,7 +433,7 @@ class _SubmitReport extends State<SubmitReport> {
                                           ]));
                             }
 
-                            else if (result == "Clean Water"){
+                            else if (_formKey.currentState!.validate() && _image != null && result == "Clean Water"){
                             // AlertDialog
                             showDialog(
                             context: context,
