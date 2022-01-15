@@ -22,7 +22,7 @@ class _ManageUserFormState extends State<ManageUserForm> {
       _fullname,
       _customAddress,
       _imgSrc,
-      _destination;
+      _userUid;
   bool? _passVisible = true;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,7 +32,7 @@ class _ManageUserFormState extends State<ManageUserForm> {
 
   _selectProfileImg() async {
     XFile? selectImg =
-        await imagePicker!.pickImage(source: ImageSource.gallery);
+    await imagePicker!.pickImage(source: ImageSource.gallery);
     setState(() {
       _profileImage = File(selectImg!.path);
       if (_profileImage == null) {
@@ -336,13 +336,15 @@ class _ManageUserFormState extends State<ManageUserForm> {
                             onPressed: () async {
                               String? currentUserUid = currentUser!.uid;
                               if (_formKey.currentState!.validate()) {
+
                                 await DatabaseService(uid: currentUserUid)
                                     .updateUserData(
                                     _fullname ?? _userData.name,
                                     _customAddress ?? _userData.address,
                                     _email ?? _userData.email,
                                     _userPassword ?? _userData.password,
-                                    _imgSrc ?? _userData.image);
+                                    _imgSrc ?? _userData.image,
+                                    _userUid ?? _userData.uid);
 
                                 //  _destination = '$currentUserUid/profile/$_imgSrc';
                                 //  await DatabaseService(uid: currentUserUid)
@@ -358,14 +360,14 @@ class _ManageUserFormState extends State<ManageUserForm> {
                               shadowColor: Colors.transparent,
                             ),
                             child: Text("Change Password",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Color(0xFF2BAE66),
-                                fontSize: 12,
-                                //decoration: TextDecoration.underline,
-                                decorationColor: Color(0xFF2BAE66),
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color(0xFF2BAE66),
+                                  fontSize: 12,
+                                  //decoration: TextDecoration.underline,
+                                  decorationColor: Color(0xFF2BAE66),
                                 )
-                              ),
+                            ),
 
                             onPressed: () async {
                               //reset password

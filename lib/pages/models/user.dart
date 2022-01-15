@@ -4,6 +4,7 @@ class RegisteredUser {
 }
 
 class UserData {
+  final String uid;
   final String name;
   final String email;
   final String address;
@@ -11,7 +12,8 @@ class UserData {
   final String image;
 
   UserData(
-      {required this.name,
+      {required this.uid,
+        required this.name,
       required this.email,
       required this.address,
       required this.password,

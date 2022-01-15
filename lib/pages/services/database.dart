@@ -9,16 +9,17 @@ class DatabaseService {
 
   //Collection for database
   final CollectionReference clientData =
-      FirebaseFirestore.instance.collection('Clients');
+  FirebaseFirestore.instance.collection('Clients');
 
   Future updateUserData(String name, String userAddress, String emailAdd,
-      String password, String imgSrc) async {
+      String password, String imgSrc, String userUid) async {
     return await clientData.doc(uid).set({
       'name': name,
       'address': userAddress,
       'email': emailAdd,
       'password': password,
       'profile-img': imgSrc,
+      'user-uid': userUid,
     });
   }
 
@@ -35,7 +36,7 @@ class DatabaseService {
         .get();
     while (currentDocumentName.exists) {
       String documentPostFix =
-          currentDocumentName.id.split("-").last.toString();
+      currentDocumentName.id.split("-").last.toString();
       if (documentPostFix == n.toString()) {
         n = n.toInt();
         n = n + 1;
@@ -58,8 +59,8 @@ class DatabaseService {
       'address': address,
       'description': description,
       'water-img': waterImageSrc,
-      'status': status,
-      'image link': imageUrl,
+      'status': 'Subject for Inspection',
+      'image link': imageUrl, //Status: clean/uncleaned
     });
   }
 
@@ -78,7 +79,7 @@ class DatabaseService {
         .toString();
   }
 
-  //snapshot user data
+  //Fetch user data - snapshot
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
       name: snapshot.get('name') ?? '',
@@ -86,10 +87,10 @@ class DatabaseService {
       email: snapshot.get('email') ?? '',
       password: snapshot.get('password') ?? '',
       image: snapshot.get('profile-img'),
+      uid: snapshot.get('user-uid'),
     );
   }
 
-  //Fetch user data
   Stream<UserData> get userData {
     return clientData.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
